@@ -1,6 +1,137 @@
 /**
  * JavaCC template file created by SF JavaCC plugin 1.5.28+ wizard for JavaCC 1.5.0+
- */options{  static = true;}PARSER_BEGIN(analizadorL1)package analizador;
+ */options{  static = true;}PARSER_BEGIN(analizadorL1)
+package analizador;
 
-public class analizadorL1{  public static void main(String args []) throws ParseException  {    analizadorL1 parser = new analizadorL1(System.in);    while (true)    {      System.out.println("Reading from standard input...");      System.out.print("Enter an expression like \"1+(2+3)*4;\" :");      try      {        switch (analizadorL1.one_line())        {          case 0 :           System.out.println("OK.");          break;          case 1 :           System.out.println("Goodbye.");          break;          default :           break;        }      }      catch (Exception e)      {        System.out.println("NOK.");        System.out.println(e.getMessage());        analizadorL1.ReInit(System.in);      }      catch (Error e)      {        System.out.println("Oops.");        System.out.println(e.getMessage());        break;      }    }  }}PARSER_END(analizadorL1)SKIP :{  " "| "\r"| "\t"| "\n"}TOKEN : /* OPERATORS */{  < PLUS : "+" >| < MINUS : "-" >| < MULTIPLY : "*" >| < DIVIDE : "/" >
-}TOKEN :{  < CONSTANT : (< DIGIT >)+ >| < #DIGIT : [ "0"-"9" ] >}int one_line() :{}{  sum() ";"  {    return 0;  }| ";"  {    return 1;  }}void sum() :{}{  term()  (    (      < PLUS >    | < MINUS >    )    term()  )*}void term() :{}{  unary()  (    (      < MULTIPLY >    | < DIVIDE >    )    unary()  )*}void unary() :{}{  < MINUS > element()| element()}void element() :{}{  < CONSTANT >| "(" sum() ")"}
+public class analizadorL1
+{
+  
+}
+
+PARSER_END(analizadorL1)SKIP :{  " "| "\r"| "\t"| "\n"}//-------------------
+TOKEN : /* OPERATORS */
+{
+  < sum : "+" >{System.out.println("se encontro sum "+ image);}
+| < res : "-" >{System.out.println("se encontro res "+ image);}
+| < mult : "*" >{System.out.println("se encontro  mult"+ image);}
+| < divd : "/" >{System.out.println("se encontro div "+ image);}
+| < poten : "^" >{System.out.println("se encontro poten "+ image);}
+| < igual: "==" >{System.out.println("se encontro igual "+ image);}
+| < asig : "=" >{System.out.println("se encontro compara "+ image);}
+| < diferente: "!=" > {System.out.println("se encontro direfente "+ image);}
+| < menor: "<" >{System.out.println("se encontro menor "+ image);}
+| < mayor: ">" >{System.out.println("se encontro mayor "+ image);}
+| < menorq: "<=" >{System.out.println("se encontro menorq "+ image);}
+| < mayorq: ">=" >{System.out.println("se encontro mayorq "+ image);}
+| < orB: "||" >{System.out.println("se encontro orB "+ image);}
+| < yB: "&&" >{System.out.println("se encontro yB "+ image);}
+| < negB: "!" >{System.out.println("se encontro negB "+ image);}
+| < cparen : ")" >{System.out.println("se encontro cparen "+ image);}
+| < aparen : "(" >{System.out.println("se encontro aparen "+ image);}
+}
+
+
+TOKEN://finales
+{
+	<Id: ("@")["a"-"z","A"-"Z"](["a"-"z","A"-"Z","0"-"9"])*  >{System.out.println("se encontro id "+ image);}
+	|< CONSTANT : (< DIGIT >)+ >{System.out.println("se encontro numero "+ image);}
+	| < #DIGIT : [ "0"-"9" ] >
+}
+
+TOKEN://tipos de datos
+{
+	<ttext:"TEXT">{System.out.println("Encontrado TIPO "+image);}
+	|<tint:"INTEGER">{System.out.println("Encontrado TIPO "+image);}
+	|<tdoble:"DOUBLE">{System.out.println("Encontrado TIPO "+image);}
+	|<tfecha:"DATE">{System.out.println("Encontrado TIPO "+image);}
+	|<tfechat:"DATETIME">{System.out.println("Encontrado TIPO "+image);}
+
+}
+
+TOKEN://palabras reservadas
+{
+	<crear:"CREAR">{System.out.println("Encontrado RESERVADA "+image);}
+	|<actual:"ACTUALIZAR">{System.out.println("Encontrado RESERVADA "+image);}
+	|<based:"BASE_DATOS">{System.out.println("Encontrado RESERVADA "+image);}
+	|<tabl:"TABLA">{System.out.println("Encontrado RESERVADA "+image);}
+	|<objt:"OBJETO">{System.out.println("Encontrado RESERVADA "+image);}
+	|<proc:"PROCEDIMIENTO">{System.out.println("Encontrado RESERVADA "+image);}
+	|<func:"FUNCION">{System.out.println("Encontrado RESERVADA "+image);}
+	|<retorn:"RETORNO">{System.out.println("Encontrado RESERVADA "+image);}
+	|<user:"USUARIO">{System.out.println("Encontrado RESERVADA "+image);}
+	|<coloc:"COLOCAR">{System.out.println("Encontrado RESERVADA "+image);}
+	|<pass:"password">{System.out.println("Encontrado RESERVADA "+image);}
+	|<usar:"USAR">{System.out.println("Encontrado RESERVADA "+image);}
+	|<alte:"ALTERAR">{System.out.println("Encontrado RESERVADA "+image);}
+	|<agreg:"AGREGAR">{System.out.println("Encontrado RESERVADA "+image);}
+	|<quitr:"QUITAR">{System.out.println("Encontrado RESERVADA "+image);}
+	|<altro:"ALTERO">{System.out.println("Encontrado RESERVADA "+image);}
+	|<elim:"ELIMINAR">{System.out.println("Encontrado RESERVADA "+image);}
+	|<insr:"INSERTAR EN">{System.out.println("Encontrado RESERVADA "+image);}
+	|<valrs:"VALORES">{System.out.println("Encontrado RESERVADA "+image);}
+	|<usser:"USER">{System.out.println("Encontrado RESERVADA "+image);}
+	|<camb:"CAMBIAR">{System.out.println("Encontrado RESERVADA "+image);}
+	|<dond:"DONDE">{System.out.println("Encontrado RESERVADA "+image);}
+	|<borr:"BORRAR">{System.out.println("Encontrado RESERVADA "+image);}
+	|<selecr:"SELECCIONAR">{System.out.println("Encontrado RESERVADA "+image);}
+	|<de:"DE">{System.out.println("Encontrado RESERVADA "+image);}
+	|<orden:"ORDENAR_POR">{System.out.println("Encontrado RESERVADA "+image);}
+	|<asc:"ASC">{System.out.println("Encontrado RESERVADA "+image);}
+	|<desc:"DESC">{System.out.println("Encontrado RESERVADA "+image);}
+	|<opermiso:"OTORGAR PERMISOS">{System.out.println("Encontrado RESERVADA "+image);}
+	|<dpermiso:"DENEGAR PERMISOS">{System.out.println("Encontrado RESERVADA "+image);}
+	|<declar:"DECLARAR">{System.out.println("Encontrado RESERVADA "+image);}
+
+}
+
+TOKEN://funciones PRIMARIAS
+{
+
+	<si:"SI">{System.out.println("Encontrado FUNCIONP "+image);}
+	|<sino:"SINO">{System.out.println("Encontrado FUNCIONP "+image);}
+	|<caso:"CASO">{System.out.println("Encontrado FUNCIONP "+image);}
+	|<defec:"DEFECTO">{System.out.println("Encontrado FUNCIONP "+image);}
+	|<para:"PARA">{System.out.println("Encontrado FUNCIONP "+image);}
+	|<mient:"MIENTRAS">{System.out.println("Encontrado FUNCIONP "+image);}
+	|<deten:"DETENER">{System.out.println("Encontrado FUNCIONP "+image);}
+	|<selca:"SELECCIONA">{System.out.println("Encontrado FUNCIONP "+image);}
+}
+
+TOKEN://FUNCIONES SECUNDARIAS
+{
+
+	<prnt:"IMPRIMIR">{System.out.println("Encontrado FUNCIONS "+image);}
+	|<fecH:"FECHA_HORA">{System.out.println("Encontrado FUNCIONS "+image);}
+	|<contr:"CONTAR">{System.out.println("Encontrado FUNCIONS "+image);}
+	|<bkusq:"BACKUP USQLDUMP">{System.out.println("Encontrado FUNCIONS "+image);}
+	|<bkuc:"BACKUP COMPLETO">{System.out.println("Encontrado FUNCIONS "+image);}
+	|<restusq:"RESTAURAR USQLDUMP">{System.out.println("Encontrado FUNCIONS "+image);}
+	|<restc:"RESTAURAR COMPLETO">{System.out.println("Encontrado FUNCIONS "+image);}
+}
+
+TOKEN://estados posibles de tablas
+{
+
+	<nulo:"Nulo">{System.out.println("Encontrado EstadoDat "+image);}
+	|<nnulo:"No Nulo">{System.out.println("Encontrado EstadoDat "+image);}
+	|<autinc:"Autoincrementable">{System.out.println("Encontrado EstadoDat "+image);}
+	|<pkey:"Llave_Primaria">{System.out.println("Encontrado EstadoDat "+image);}
+	|<fkey:"Llave_Foranea">{System.out.println("Encontrado EstadoDat "+image);}
+	|<uniq:"Unico">{System.out.println("Encontrado EstadoDat "+image);}
+
+}
+
+TOKEN://OTROS SIMBOLOS
+{
+
+	<pcoma:";">{System.out.println("Encontrado OSIMBOLO "+image);}
+	|<coma:",">{System.out.println("Encontrado OSIMBOLO "+image);}
+	|<allave:"{">{System.out.println("Encontrado OSIMBOLO "+image);}
+	|<cllave:"}">{System.out.println("Encontrado OSIMBOLO "+image);}
+	|<dpunto:":">{System.out.println("Encontrado OSIMBOLO "+image);}
+	|<coment:"#">{System.out.println("Encontrado OSIMBOLO "+image);}
+	|<ccoment:"#*">{System.out.println("Encontrado OSIMBOLO "+image);}
+	|<fcoment:"*#">{System.out.println("Encontrado OSIMBOLO "+image);}
+	|<comilld:"\"">{System.out.println("Encontrado OSIMBOLO "+image);}
+}
+///-----------------int one_line() :{}{  sum() ";"  {    return 0;  }| ";"  {    return 1;  }}void sum() :{}{  term()  (    (      < sum >    | < res >    )    term()  )*}void term() :{}{  unary()  (    (      < mult >    | < divd >    )    unary()  )*}void unary() :{}{  < res > element()| element()}void element() :{}{  < CONSTANT >| "(" sum() ")"}
