@@ -31,12 +31,6 @@ TOKEN : /* OPERATORS */
 }
 
 
-TOKEN://finales
-{
-	<Id: ("@")["a"-"z","A"-"Z"](["a"-"z","A"-"Z","0"-"9"])*  >{System.out.println("se encontro id "+ image);}
-	|< CONSTANT : (< DIGIT >)+ >{System.out.println("se encontro numero "+ image);}
-	| < #DIGIT : [ "0"-"9" ] >
-}
 
 TOKEN://tipos de datos
 {
@@ -45,7 +39,7 @@ TOKEN://tipos de datos
 	|<tdoble:"DOUBLE">{System.out.println("Encontrado TIPO "+image);}
 	|<tfecha:"DATE">{System.out.println("Encontrado TIPO "+image);}
 	|<tfechat:"DATETIME">{System.out.println("Encontrado TIPO "+image);}
-
+	|<bolea:"BOOL">{System.out.println("Encontrado TIPO "+image);}
 }
 
 TOKEN://palabras reservadas
@@ -134,4 +128,71 @@ TOKEN://OTROS SIMBOLOS
 	|<fcoment:"*#">{System.out.println("Encontrado OSIMBOLO "+image);}
 	|<comilld:"\"">{System.out.println("Encontrado OSIMBOLO "+image);}
 }
-///-----------------int one_line() :{}{  sum() ";"  {    return 0;  }| ";"  {    return 1;  }}void sum() :{}{  term()  (    (      < sum >    | < res >    )    term()  )*}void term() :{}{  unary()  (    (      < mult >    | < divd >    )    unary()  )*}void unary() :{}{  < res > element()| element()}void element() :{}{  < CONSTANT >| "(" sum() ")"}
+
+TOKEN://finales
+{
+	<varbl: ("@")["a"-"z","A"-"Z"](["a"-"z","A"-"Z","0"-"9"])*  >{System.out.println("se encontro variable "+ image);}
+	|<id:["a"-"z","A"-"Z"](["a"-"z","A"-"Z","0"-"9","_"])*>{System.out.println("se encontro id "+ image);}
+	|< CONSTANT : (< DIGIT >)+ >{System.out.println("se encontro numero "+ image);}
+	| < #DIGIT : [ "0"-"9" ] >
+}
+
+///-----------------int one_line() :{}{  sum() ";"  {    return 0;  }| ";"  {    return 1;  }
+| CREAR()
+	{
+	  return 0;	}}void sum() :{}{  term()  (    (      < sum >    | < res >    )    term()  )*}void term() :{}{  unary()  (    (      < mult >    | < divd >    )    unary()  )*}void unary() :{}{  < res > element()| element()}void element() :{}{  < CONSTANT >| "(" sum() ")"}
+///--------------------------
+
+void CREAR():
+{}
+{
+	<crear>  TCREA() <pcoma>
+}
+
+
+void TCREA():
+{}
+{
+	<based> <id>
+	|<tabl> <id> <aparen> LSCOLUM() 
+	|<objt> <id>
+	|<proc>	<id>
+	|<func>	<id>
+	|<user> <id>
+}
+
+void TIPDAT():
+{}
+{
+	<ttext>
+	|<tint>
+	|<tdoble>
+	|<tfecha>
+	|<tfechat>
+	| <bolea>
+}
+
+void ESTCOL():
+{}
+{
+	<nulo>
+	|<nnulo>
+	|<autinc>
+	|<pkey>
+	|<fkey>
+	|<uniq>
+}
+
+void LSCOLUM():
+{ }
+{
+  
+	TIPDAT() <id> (ESTCOL())* RECCOL()
+}
+
+void RECCOL():
+{}
+{
+	<coma> LSCOLUM()
+	| <cparen>
+}
