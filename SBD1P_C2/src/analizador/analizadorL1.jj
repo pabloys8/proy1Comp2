@@ -155,7 +155,7 @@ void TCREA():
 {
 	<based> <id>
 	|<tabl> <id> <aparen> LSCOLUM() 
-	|<objt> <id>
+	|<objt> <id> <aparen> ATRIBSIM()
 	|<proc>	<id>
 	|<func>	<id>
 	|<user> <id>
@@ -196,3 +196,19 @@ void RECCOL():
 	<coma> LSCOLUM()
 	| <cparen>
 }
+
+
+void ATRIBSIM():
+{}
+{
+	TIPDAT() <id> ATRIBSIM2()
+}
+
+void ATRIBSIM2():
+{}
+{
+	<coma> ATRIBSIM()
+	|<cparen>
+}
+
+
