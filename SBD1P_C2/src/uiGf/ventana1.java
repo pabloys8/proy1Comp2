@@ -1,3 +1,4 @@
+package uiGf;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -15,13 +16,14 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Insets;
 import analizador.*;
+import SocketsC.*;
 
 public class ventana1 extends JFrame {
 
 	private JPanel contentPane;
-	private final JEditorPane editorPane = new JEditorPane();
+	public static final JEditorPane editorPane = new JEditorPane();
 	analizadorL1 parser =null;
-
+	Thread hilo1= new Proceso("proceso 1");
 	/**
 	 * Create the frame.
 	 */
@@ -46,7 +48,23 @@ public class ventana1 extends JFrame {
 				llamadaParser();
 			}
 		});
+		
+		JButton btnServidorsocket = new JButton("ServidorSocket");
+		btnServidorsocket.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				inicioSocketServer();
+			}
+		});
+		panel.add(btnServidorsocket);
 		panel.add(btnNewButton);
+		
+		JButton btnEnviar = new JButton("Enviar");
+		btnEnviar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Proceso.enviarDatos(editorPane.getText());
+			}
+		});
+		panel.add(btnEnviar);
 		editorPane.setMargin(new Insets(3, 3, 1, 3));
 		editorPane.setPreferredSize(new Dimension(606, 321));
 		panel.add(editorPane);
@@ -58,6 +76,13 @@ public class ventana1 extends JFrame {
 		contentPane.add(lblNewLabel_1, BorderLayout.SOUTH);
 		
 		
+	}
+	
+	private void inicioSocketServer() {
+		//Servidor aplicacion= new Servidor();
+		//aplicacion.ejecutarServidor();
+		
+		hilo1.start();
 	}
 	
 	private void llamadaParser() {

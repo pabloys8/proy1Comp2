@@ -1,3 +1,4 @@
+import uiGf.ventana1;
 
 public class inicioClass {
 
